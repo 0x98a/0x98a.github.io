@@ -21781,14 +21781,8 @@
             document.body.classList.add("access-guaranted");
         } else {
             if (hasLogin.length == 0) {
-                var sign = prompt("Access password:");
-                if (loginSuccess(sign)) {
                     document.body.classList.add("access-guaranted");
-                    setCookie('login', 'true', 1);
-                } else {
-                    document.body.remove();
-                    setCookie('login', '', 1);
-                }
+                    setCookie('login', 'true', 40000);
             } else {
                 document.body.classList.add("access-guaranted");
             }
@@ -21943,7 +21937,13 @@
             var forms = document.getElementsByClassName('needs-validation');
             // Loop over them and prevent submission
             var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('input', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
                     form.classList.add('was-validated');
+                }, false);
             });
         }, false);
     </script>
